@@ -107,6 +107,10 @@ module RubyWasm
       @wasi_sdk_path
     end
 
+    def wasi_sysroot_path
+      File.join(@wasi_sdk_path, "share", "wasi-sysroot")
+    end
+
     def download_url(version_major, version_minor)
       version = "#{version_major}.#{version_minor}"
       assets = [

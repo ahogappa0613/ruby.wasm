@@ -1,2 +1,6 @@
-*.o
-link.filelist
+*
+!*.o
+!link.filelist
+!js
+!witapi
+!extinit.c.erb

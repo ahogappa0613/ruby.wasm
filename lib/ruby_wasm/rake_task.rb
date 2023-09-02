@@ -64,12 +64,13 @@ class RubyWasm::BuildTask < ::Rake::TaskLib
         @source,
         @toolchain
       )
-    yield self if block_given?
 
     @crossruby.with_libyaml @libyaml
     @crossruby.with_zlib @zlib
     @crossruby.with_wasi_vfs @wasi_vfs
     @crossruby.with_openssl @openssl
+
+    yield self if block_given?
 
     desc "Cross-build Ruby for #{@target}"
     task name do

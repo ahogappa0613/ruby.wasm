@@ -142,7 +142,7 @@ module RubyWasm
       FileUtils.mkdir_p dest_dir
       FileUtils.mkdir_p build_dir
       @toolchain.install
-      [@source, @baseruby, @libyaml, @zlib, @openssl, @wasi_vfs].each(&:build)
+      [@source, @baseruby, @libyaml, @zlib, @openssl, @wasi_vfs].compact.each(&:build)
       configure(reconfigure: reconfigure)
       build_exts
 
@@ -224,6 +224,24 @@ module RubyWasm
 
     def baseruby_path
       File.join(@baseruby.install_dir, "bin/ruby")
+    end
+
+    def ruby_config_path
+      lib_root = File.expand_path("../../../../..", __FILE__)
+      case @params.target
+      when "wasm32-unknown-wasi"
+        target = "wasm32-wasi"
+      when "wasm32-unknown-emscripten"
+        target = "wasm32-emscripten"
+      else
+        raise "unknown target: #{target}"
+      end
+
+      File.join(lib_root, "build", @params.target, name, ".ext/include", target)
+    end
+
+    def ruby_header_path
+      Dir.glob(File.join(@baseruby.install_dir, "include", 'ruby-*')).first
     end
 
     def configure_args(build_triple, toolchain)
