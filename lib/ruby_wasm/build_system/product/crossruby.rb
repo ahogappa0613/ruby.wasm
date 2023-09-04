@@ -70,7 +70,7 @@ module RubyWasm
 
     def do_install_rb(crossruby)
       objdir = product_build_dir crossruby
-      system %Q(make -C "#{objdir}" #{make_args(crossruby).join(" ")} install-rb)
+      system %Q(make -C "#{objdir}" #{make_args(crossruby).join(" ")} install-rb target_prefix="")
     end
 
     def cache_key(digest)
